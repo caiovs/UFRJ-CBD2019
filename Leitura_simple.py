@@ -32,30 +32,25 @@
 """
 import csv
 
-class Leitura(object):
-    """docstring for Leitura."""
-
-    def __init__(self):
-        arquivo = open("gh_simple.csv")
-
-        linhas = csv.reader(arquivo)
-
-        for i in linhas:
-            print(i)
-            input()
-
 class Escrita(object):
     """docstring for Escrita."""
 
-    def __init__(self):
-        pass
+    def __init__(self, dados):
+        with open('Banco.bin', 'r+b') as file:
+            byte = file.read(1)
+            while byte != b'':
+                print(byte)
+                file.write(b'\xFF')
+                byte = file.read(1)
 
-if __name__ == '__main__':
-    l = Leitura()
+            #file.seek(2, 0)
+            #file.write(b'\xFF')
 
-class CSVtoBD():
+
+
+class Leitura():
     """Lê um arquivo CSV, cria um banco de dados e faz insert."""
-    
+
     campos = []
     linhas = []
 
@@ -63,7 +58,7 @@ class CSVtoBD():
         arquivoCSV = "gh_simple.csv"
 
         linhaatual = 0
-        with open(arquivoCSV, 'r') as csvfile: 
+        with open(arquivoCSV, 'r') as csvfile:
             linhasCSV = csv.reader(arquivoCSV)
             #extrai a primeira linha que contém os nomes dos campos
             campos = linhasCSV.next()
@@ -74,4 +69,7 @@ class CSVtoBD():
                 linhaatual += 1
 
         print(f'Linhas processadas: {linhaatual}')
-    
+
+if __name__ == '__main__':
+    l = Leitura()
+    Escrita()
