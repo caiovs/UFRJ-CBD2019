@@ -32,20 +32,33 @@
 """
 import csv
 
+class Registro_GH(object):
+    """docstring for Registro."""
+
+    def __init__(self, dado):
+        dado = dado.split(',')
+        print("******************/nDado :", type(dado))
+        print("dado[0]", dado[0])
+        self.uhe = dado[0]
+        print("dado[1]", dado[1])
+        self.cenario = dado[1]
+        print("dado[2]", dado[2])
+        self.estagio = dado[2]
+        print("dado[3]", dado[3])
+        self.geracao = dado[3]
+
+
 class Escrita(object):
     """docstring for Escrita."""
 
-    def __init__(self, dados):
-        with open('Banco.bin', 'r+b') as file:
+    def guardar(self, dado):
+        print("Entrou no Escrita ")
+        rg = Registro_GH(dado)
+        with open('Banco.txt', 'r') as file:
             byte = file.read(1)
-            while byte != b'':
-                print(byte)
-                file.write(b'\xFF')
-                byte = file.read(1)
-
-            #file.seek(2, 0)
-            #file.write(b'\xFF')
-
+            file.write(rg)
+            # altera byte
+            #arquivo.write(byte)
 
 
 class Leitura():
@@ -55,21 +68,21 @@ class Leitura():
     linhas = []
 
     def __init__(self):
-        arquivoCSV = "gh_simple.csv"
-
+        escrever = Escrita()
+        linhas = []
         linhaatual = 0
-        with open(arquivoCSV, 'r') as csvfile:
-            linhasCSV = csv.reader(arquivoCSV)
+        with open("gh_simple.csv", 'r') as csvfile:
             #extrai a primeira linha que contém os nomes dos campos
-            campos = linhasCSV.next()
             linhaatual += 1
             #linhas restantes são armazenadas no vetor 'linhas'
-            for linha in linhasCSV:
+            for linha in csvfile:
                 linhas.append(linha)
                 linhaatual += 1
+                print(linha)
+                escrever.guardar(linha)
 
         print(f'Linhas processadas: {linhaatual}')
 
+
 if __name__ == '__main__':
     l = Leitura()
-    Escrita()
