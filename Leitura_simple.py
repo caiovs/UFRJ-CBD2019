@@ -31,13 +31,15 @@
     Linhas de dados totais: 4.758.124
 """
 import csv
+import pickle
 
 class Registro_GH(object):
     """docstring for Registro."""
 
     def __init__(self, dado):
-        dado = dado.split(',')
-        print("******************/nDado :", type(dado))
+        print("############", dado)
+        dado = dado.split(';')
+        print("******************/nDado :", type(dado),"      ",dado)
         print("dado[0]", dado[0])
         self.uhe = dado[0]
         print("dado[1]", dado[1])
@@ -54,14 +56,12 @@ class Escrita(object):
     def guardar(self, dado):
         print("Entrou no Escrita ")
         rg = Registro_GH(dado)
-        with open('Banco.txt', 'r') as file:
-            byte = file.read(1)
-            file.write(rg)
-            # altera byte
-            #arquivo.write(byte)
+        with open('Banco.bin', 'wb') as file:
+            pickle.dump(rg, file)
+            print("Dado gravado!!")
 
 
-class Leitura():
+class Gravar():
     """Lê um arquivo CSV, cria um banco de dados e faz insert."""
 
     campos = []
@@ -83,6 +83,18 @@ class Leitura():
 
         print(f'Linhas processadas: {linhaatual}')
 
+class Leitura(object):
+    """docstring for Leitura."""
+
+    def __init__(self):
+        with open("gh_simple.csv", "rb") as file:
+             #le = pickle.load(file)
+             for value in pickle.load(file):
+                 print(value)
+             #print(file)
+             #print(file[2])
+
 
 if __name__ == '__main__':
+    g = Gravar()
     l = Leitura()
