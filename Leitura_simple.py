@@ -34,6 +34,7 @@
 """
 import csv
 import pickle
+from pilha import Pilha, Node
 
 class Registro_GH(object):
     """docstring for Registro."""
@@ -70,6 +71,7 @@ class Gravar():
     linhas = []
 
     def __init__(self):
+        pilha = Pilha()
         escrever = Escrita()
         linhas = []
         linhaatual = 0

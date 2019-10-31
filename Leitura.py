@@ -38,6 +38,7 @@
 """
 import csv
 import pickle
+from pilha import Pilha, Node
 
 class Ler(object):
     """docstring for Leitura."""
@@ -54,15 +55,21 @@ class Ler(object):
         print('Showing the pickled data:')
 
         cnt = 0
-        for item in data:
-            print('The data ', cnt, ' is : ', item.data)
+        for i in range(data.size):
+            print('The data ', cnt, ' is : ', data.peek())
             cnt += 1
-
+            data = data.peek()
 
 class Data(object):
     """docstring for Data"""
     def __init__(self, arg):
-        self.data = arg        
+        self.data = arg    
+
+    def __repr__(self):
+        return self.data
+
+    def __str__(self):
+        return self.__repr__()    
 
 class Gravar(object):
 
@@ -70,17 +77,23 @@ class Gravar(object):
         #INSERT -Heap
         number_of_data = int(input('Enter the number of data : '))
         data = []
+        pilha = Pilha()
 
         # open a file, where you ant to store the data
-        file = open('important', 'wb')
+        file = open('Banco.bin', 'wb')
+        pickle.dump(pilha, file)
+        file.close()
+        file = open('Banco.bin', 'rb')
 
+
+        data = pickle.load(file) 
         # take input of the data
         for i in range(number_of_data):
             raw = input('Enter data '+str(i)+' : ')
             i = Data(raw)
-            #data.append(i)
-            # dump information to that file
-            pickle.dump(i, file)
+            data = pickle.load(file)
+            data.push(i)
+            pickle.dump(data, file)
         
 
         
@@ -91,3 +104,4 @@ class Gravar(object):
 if __name__ == '__main__':
     g = Gravar()
     l = Ler()
+
