@@ -37,39 +37,57 @@
         Linhas: 4.817.701
 """
 import csv
-from pilha import *
 import pickle
 
-class Leitura(object):
+class Ler(object):
     """docstring for Leitura."""
 
     def __init__(self):
-        arquivo = open("gh.CSV")
-        self.arq = csv.reader(arquivo)
+        file = open('important', 'rb')
 
-        #o = 0
-        #ficheiro = open("arquivo.dat","wb")
-        #for t in arq:
-        #    pickle.dump(t, arquivo)
-        #    o = o + 1
-        self.insert()
-        arquivo.close()
-        #ficheiro.close()
+        # dump information to that file
+        data = pickle.load(file)
+
+        # close the file
+        file.close()
+
+        print('Showing the pickled data:')
+
+        cnt = 0
+        for item in data:
+            print('The data ', cnt, ' is : ', item.data)
+            cnt += 1
 
 
-    def insert(self):
+class Data(object):
+    """docstring for Data"""
+    def __init__(self, arg):
+        self.data = arg        
+
+class Gravar(object):
+
+    def __init__(self):
         #INSERT -Heap
-        self.pilha = Pilha()
-        for i in self.arq:
-            no = Node(i)
-            self.pilha.push(no)
-            print(self.pilha)
+        number_of_data = int(input('Enter the number of data : '))
+        data = []
 
-        print(self.pilha)
+        # open a file, where you ant to store the data
+        file = open('important', 'wb')
 
+        # take input of the data
+        for i in range(number_of_data):
+            raw = input('Enter data '+str(i)+' : ')
+            i = Data(raw)
+            #data.append(i)
+            # dump information to that file
+            pickle.dump(i, file)
+        
 
+        
 
-
+        # close the file
+        file.close()
 
 if __name__ == '__main__':
-    l = Leitura()
+    g = Gravar()
+    l = Ler()
