@@ -56,6 +56,7 @@ class Leitura(object):
         arquivo.close()
         #ficheiro.close()
 
+
     def insert(self):
         #INSERT -Heap
         self.pilha = Pilha()
