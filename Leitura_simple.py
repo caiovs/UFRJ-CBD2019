@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
-
 """
+
 ********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************
     2° Trabalho - Contrução de banco de dados
         - Lucas Máximo Dantas
@@ -32,6 +32,7 @@
 
     Linhas de dados totais: 4.758.124
 """
+
 import csv
 import pickle
 from pilha import Pilha, Node
@@ -52,18 +53,6 @@ class Registro_GH(object):
         print("dado[3]", dado[3])
         self.geracao = dado[3]
 
-
-class Escrita(object):
-    """docstring for Escrita."""
-
-    def guardar(self, dado):
-        print("Entrou no Escrita ")
-        rg = Registro_GH(dado)
-        with open('Banco.bin', 'wb') as file:
-            pickle.dump(rg, file)
-            print("Dado gravado!!")
-
-
 class Gravar():
     """Lê um arquivo CSV, cria um banco de dados e faz insert."""
 
@@ -71,34 +60,41 @@ class Gravar():
     linhas = []
 
     def __init__(self):
-        pilha = Pilha()
-        escrever = Escrita()
-        linhas = []
+        self.pilha = Pilha()
         linhaatual = 0
-        with open("gh_simple.csv", 'r') as csvfile:
-            #extrai a primeira linha que contém os nomes dos campos
+        with open("gh.csv", 'r') as csvfile:
             linhaatual += 1
-            #linhas restantes são armazenadas no vetor 'linhas'
             for linha in csvfile:
-                linhas.append(linha)
+                print("***** Linha atual : ",linhaatual)
+                self.guardar_na_pilha(linha)
                 linhaatual += 1
-                print(linha)
-                escrever.guardar(linha)
+                print("Linha : ",linha)
+            self.salvar()
 
         print(f'Linhas processadas: {linhaatual}')
+
+    def guardar_na_pilha(self, dado):
+        print("Entrou no Escrita ")
+        rg = Registro_GH(dado)
+        self.pilha.push(rg)
+
+    def salvar(self):
+        with open('Banco.bin', 'wb') as file:
+            pickle.dump(self.pilha, file)
+            print("Dado gravado!!")
 
 class Leitura(object):
     """docstring for Leitura."""
 
     def __init__(self):
-        with open("gh_simple.csv", "rb") as file:
-             le = pickle.load(file)
-             for value in le:
+        le = 0
+        cont = 0
+        with open("gh.csv", "rb") as file:
+             for value in file:
                  print(value)
-             #print(file)
-             #print(file[2])
-
+                 cont = cont + 1
+             print("Linhas: ", cont)
 
 if __name__ == '__main__':
-    #g = Gravar()
+    g = Gravar()
     l = Leitura()
