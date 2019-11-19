@@ -47,15 +47,6 @@ class Pilha(object):
             print(atual.next)
             atual = atual.next
 
-        """
-        r = ""
-        pointer = self.top
-        while(pointer):
-            r = r + str(pointer.data) + "\n"
-            pointer = pointer.next
-        return r
-        """
-
     def __str__(self):
         return str(self.__repr__())
 

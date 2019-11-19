@@ -37,7 +37,6 @@ import csv
 import pickle
 from pilha import Pilha, Node
 import sys
-#import resource
 
 class Registro_GH(object):
     """docstring for Registro."""
@@ -54,6 +53,12 @@ class Registro_GH(object):
         self.estagio = dado[2]
         print("dado[3]", dado[3])
         self.geracao = dado[3]
+
+    def __repr__(self):
+        return [self.uhe,self.cenario,self.estagio,self.geracao]
+
+    def __str__(self):
+        return str(self.__repr__())
 
 class Gravar():
     """Lê um arquivo CSV, cria um banco de dados e faz insert."""
@@ -83,6 +88,7 @@ class Gravar():
         self.pilha.push(rg)
 
     def salvar(self):
+        #Não posso adicionar tudo de uma vez
         with open('Banco.bin', 'wb') as file:
             pickle.dump(self.pilha, file)
             print("Dado gravado!!")
@@ -94,11 +100,9 @@ class Leitura(object):
         le = 0
         cont = 0
         with open("Banco.bin", "rb") as file:
-             for value in file:
-                 print(value)
-                 cont = cont + 1
-             print("Linhas: ", cont)
+            c = pickle.load(file)
+            print(c)
 
 if __name__ == '__main__':
-    #g = Gravar()
-    l = Leitura()
+    g = Gravar()
+    #l = Leitura()
