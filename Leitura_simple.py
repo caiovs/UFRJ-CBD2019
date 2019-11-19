@@ -36,13 +36,15 @@
 import csv
 import pickle
 from pilha import Pilha, Node
+import sys
+#import resource
 
 class Registro_GH(object):
     """docstring for Registro."""
 
     def __init__(self, dado):
         print("############", dado)
-        dado = dado.split(';')
+        dado = dado.split(',')
         print("******************/nDado :", type(dado),"      ",dado)
         print("dado[0]", dado[0])
         self.uhe = dado[0]
@@ -60,9 +62,11 @@ class Gravar():
     linhas = []
 
     def __init__(self):
+        #resource.setrlimit(resource.RLIMIT_STACK, [0x100 * max_rec, resource.RLIM_INFINITY])
+        #sys.setrecursionlimit(max_rec)
         self.pilha = Pilha()
         linhaatual = 0
-        with open("gh.csv", 'r') as csvfile:
+        with open("gh_simple.csv", 'r') as csvfile:
             linhaatual += 1
             for linha in csvfile:
                 print("***** Linha atual : ",linhaatual)
@@ -89,12 +93,12 @@ class Leitura(object):
     def __init__(self):
         le = 0
         cont = 0
-        with open("gh.csv", "rb") as file:
+        with open("Banco.bin", "rb") as file:
              for value in file:
                  print(value)
                  cont = cont + 1
              print("Linhas: ", cont)
 
 if __name__ == '__main__':
-    g = Gravar()
+    #g = Gravar()
     l = Leitura()
