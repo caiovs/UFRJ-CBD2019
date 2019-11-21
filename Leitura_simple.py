@@ -37,6 +37,8 @@ import csv
 import pickle
 from pilha import Pilha, Node
 import sys
+import resource
+
 
 class Registro_GH(object):
     """docstring for Registro."""
@@ -67,8 +69,15 @@ class Gravar():
     linhas = []
 
     def __init__(self):
-        #resource.setrlimit(resource.RLIMIT_STACK, [0x100 * max_rec, resource.RLIM_INFINITY])
-        #sys.setrecursionlimit(max_rec)
+        print (resource.getrlimit(resource.RLIMIT_STACK))
+        print (sys.getrecursionlimit())
+        input()
+        max_rec = 0x100000
+
+        # May segfault without this line. 0x100 is a guess at the size of each stack frame.
+        resource.setrlimit(resource.RLIMIT_STACK, [0x100 * max_rec, resource.RLIM_INFINITY])
+        sys.setrecursionlimit(max_rec)
+
         self.pilha = Pilha()
         linhaatual = 0
         with open("gh_simple.csv", 'r') as csvfile:
